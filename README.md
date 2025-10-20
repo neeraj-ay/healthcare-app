@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Healthcare Dashboard
 
 Healthcare Dashboard — a React + Tailwind app for managing patient records, viewing charts and running basic reports. Includes searchable, sortable and paginated patient tables with accessibility improvements.
@@ -37,3 +38,7 @@ npm start
 ## License
 
 MIT
+=======
+# healthcare-app
+Healthcare dashboard for patient management and analytics
+>>>>>>> 826ca4462fd9779c9914676ef13f3707fc30eccd
