@@ -1,7 +1,9 @@
+import React from "react";
+
 export default function Patients({ patients }) {
   return (
     <>
-      {patients.map((p) => (
+      {(patients || []).map((p) => (
         <tr key={p.patient_id}>
           <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900 box-border">
             {p.patient_id}

@@ -1,10 +1,11 @@
+import React from "react";
+
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
   if (!totalPages || totalPages <= 1) return null;
 
   const visiblePages = [];
   const start = Math.max(1, currentPage - 2);
   const end = Math.min(totalPages, currentPage + 2);
-
   for (let i = start; i <= end; i++) visiblePages.push(i);
 
   return (

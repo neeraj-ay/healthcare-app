@@ -1,61 +1,93 @@
-import { useState } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { Home, Users, BarChart3, Activity } from "lucide-react"; // icons
-import { motion } from "framer-motion";
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+export default React.memo(function Sidebar() {
+  // load persisted collapsed state (default: expanded)
+  const [collapsed, setCollapsed] = useState(() => {
+    try {
+      return localStorage.getItem("hc_sidebar_collapsed") === "true";
+    } catch {
+      return false;
+    }
+  });
 
-  const menus = [
-    { title: "Dashboard", icon: <Home size={20} />, path: "/" },
-    { title: "Patients", icon: <Users size={20} />, path: "/patients" }, // changed to lowercase absolute path
-    { title: "Reports", icon: <BarChart3 size={20} />, path: "/reports" }, // changed to lowercase absolute path
-  ];
+  // persist collapsed state
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "hc_sidebar_collapsed",
+        collapsed ? "true" : "false"
+      );
+    } catch {}
+  }, [collapsed]);
+
+  const toggle = useCallback(() => setCollapsed((c) => !c), []);
+
+  // memoize menu list to avoid re-creating on renders
+  const menus = useMemo(
+    () => [
+      { title: "Dashboard", icon: "🏠", path: "/" },
+      { title: "Patients", icon: "👥", path: "/patients" },
+      { title: "Reports", icon: "📊", path: "/reports" },
+    ],
+    []
+  );
 
   return (
-    <motion.div
-      animate={{ width: isOpen ? 200 : 60 }}
-      className="bg-white shadow-lg min-h-screen p-3 pt-6 relative transition-all"
+    <aside
+      className={`bg-white border-r min-h-screen p-3 transition-width duration-150 ease-in-out flex-shrink-0 ${
+        collapsed ? "w-20" : "w-64"
+      }`}
       role="navigation"
       aria-label="Main sidebar"
+      aria-expanded={!collapsed}
     >
-      {/* Toggle Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="absolute -right-3 top-4 bg-blue-500 text-white p-1 rounded-full"
-        aria-label={isOpen ? "Collapse sidebar" : "Expand sidebar"}
-        aria-expanded={isOpen}
-      >
-        {isOpen ? "<" : ">"}
-      </button>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">🏥</span>
+          {!collapsed && <h1 className="text-lg font-bold">HealthCare</h1>}
+        </div>
 
-      {/* Logo / Title */}
-      <div className="flex items-center gap-2 px-2 mb-6">
-        <span className="text-blue-600 font-bold text-lg">🏥</span>
-        {isOpen && <h1 className="text-xl font-bold">HealthCare</h1>}
+        {/* collapse toggle: use plain < and > characters */}
+        <button
+          onClick={toggle}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-pressed={collapsed}
+          className="p-1 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg font-semibold"
+          title={collapsed ? "Expand" : "Collapse"}
+        >
+          {collapsed ? ">" : "<"}
+        </button>
       </div>
 
-      {/* Menu Items */}
-      <ul className="space-y-4">
-        {menus.map((menu, index) => (
-          <li key={index}>
-            <NavLink
-              to={menu.path}
-              title={menu.title}
-              className={({ isActive }) =>
-                `flex items-center gap-3 p-2 rounded-md cursor-pointer hover:bg-blue-100 text-gray-700 ${
-                  isActive ? "bg-blue-50 text-blue-600 font-semibold" : ""
-                }`
-              }
-            >
-              {menu.icon}
-              {isOpen && <span>{menu.title}</span>}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-    </motion.div>
+      <nav className="mt-2">
+        <ul className="space-y-2">
+          {menus.map((menu) => (
+            <li key={menu.title}>
+              <NavLink
+                to={menu.path}
+                title={menu.title}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 p-2 rounded-md hover:bg-blue-50 transition-colors ${
+                    isActive
+                      ? "bg-blue-50 text-blue-700 font-semibold"
+                      : "text-gray-700"
+                  } ${collapsed ? "justify-center" : ""}`
+                }
+                end
+              >
+                <span className="text-lg" aria-hidden="true">
+                  {menu.icon}
+                </span>
+                {/* hide label when collapsed but keep it in DOM for screen readers */}
+                <span className={`${collapsed ? "sr-only" : ""} select-none`}>
+                  {menu.title}
+                </span>
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
   );
-};
-
-export default Sidebar;
+});

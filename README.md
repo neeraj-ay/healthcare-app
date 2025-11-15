@@ -1,44 +1,79 @@
-<<<<<<< HEAD
-# Healthcare Dashboard
+QualDash-PM: Healthcare management app
 
-Healthcare Dashboard — a React + Tailwind app for managing patient records, viewing charts and running basic reports. Includes searchable, sortable and paginated patient tables with accessibility improvements.
+Course: Mini-Project Submission
+Author: Neeraj
+Inspiration: IEEE "QualDash: A Dashboard for Clinical Quality of Care Assessment"
 
-## Features
+1. Problem Statement
 
-- Search, sort and paginate patient records
-- Responsive table with horizontal scroll on small screens
-- Accessible sortable headers and keyboard support
-- Dashboard charts and KPI cards (demo data)
+In modern healthcare, clinics and hospitals collect vast amounts of patient data (EHRs). However, this data is often difficult to analyze in real-time. Clinical managers and physicians lack a simple, high-level view to answer critical questions, such as:
 
-## Tech stack
+"Are we meeting our quality-of-care goals?"
 
-- React
-- Tailwind CSS
-- React Router
-- Framer Motion, lucide-react (icons)
+"Which of our patients are at high risk or non-compliant?"
 
-## Quick start (Windows)
+"Where are the bottlenecks in our patient-care process?"
 
-```powershell
-npm install
-npm start
-# open http://localhost:3000
-```
+This project, inspired by the 'QualDash' framework, aims to solve this by creating a prototype dashboard for Practice Managers (PMs) to visualize key performance indicators (KPIs) and improve patient outcomes.
 
-## Data
+2. User Persona
 
-- Demo data lives in `src/data/patients.json`.
+The system is designed for Dr.Admin, a Clinical Practice Manager.
 
-## Contributing
+Role: Manages patients data and generates report. Represents data visually.
 
-1. Fork the repo
-2. Create a branch: `git checkout -b fix/your-change`
-3. Commit your changes and open a PR
+Goals: Ensure high-quality patient care, meet clinic-wide performance metrics, and efficiently allocate resources.
 
-## License
+Frustrations: "I spend hours pulling reports from our clunky EHR. I don't know if my patients are taking their medication, and I can't easily see which doctor's patients have the best outcomes."
 
-MIT
-=======
-# healthcare-app
-Healthcare dashboard for patient management and analytics
->>>>>>> 826ca4462fd9779c9914676ef13f3707fc30eccd
+3. Solution: The QualDash-PM Dashboard
+
+This project is a React-based web application that provides Dr.Admin with a real-time, "at-a-glance" view of their clinic's performance.
+
+Key Features
+
+KPI Dashboard: A high-level view of the most critical metrics:
+
+Patient Outcomes: Visualizing Recovery vs. Mortality rates.
+
+Admissions & Occupancy: Tracking admission trends and daily bed occupancy.
+
+Departmental Load: Breaking down patient volume by clinical department.
+
+Patient List & Filtering: A detailed, searchable, and filterable list of all patients. This allows the manager to "drill down" from a high-level KPI to a specific list of patients.
+
+Accessible Interface: Features like collapsible sidebar, accessible sorting headers (keyboard-navigable), and clear pagination.
+
+4. Technical Stack
+
+Frontend: React (Vite)
+
+Routing: React Router DOM
+
+Styling: Tailwind CSS
+
+Animation: Framer Motion
+
+Icons: Lucide-React
+
+Data Visualization: Recharts
+
+Data: Static patients.json (as a mock database)
+
+5. How to Run
+
+Clone the repository.
+
+Install dependencies: npm install
+
+Run the development server: npm run dev
+
+6. Future Work
+
+While this prototype focuses on data visualization from a static source, the next logical steps would be:
+
+Integration: Connect to a live database (like Firebase) or a FHIR API instead of static mock data.
+
+Task Management: Allow the manager to assign tasks (e.g., "Nurse, follow up with Patient X") directly from the dashboard.
+
+Patient Portal: Create a patient-facing view for appointment booking.
